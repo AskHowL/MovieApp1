@@ -31,18 +31,38 @@ public class MainActivity extends AppCompatActivity {
         prepare();
         addItem();
 
+
+       /* AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent x = new Intent(MainActivity.this, detail.class);
+                //mengirimkan data yang dipilih dengan identitas Extra_Movie
+                x.putExtra(detail.Extra_Movie, movies.get(position));
+                startActivity(x);
+                //Toast.makeText(MainActivity.this,"Download " ,Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        listView.setOnClickListener((View.OnClickListener) listener);*/
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showSelectedArray(movies.get(i));
+                Intent x = new Intent(MainActivity.this, detail.class);
+                //mengirimkan data yang dipilih dengan identitas Extra_Movie
+                x.putExtra(detail.Extra_Movie, movies.get(i));
+                startActivity(x);
             }
         });
     }
 
+
+
     private void addItem() {
         movies = new ArrayList<>();
         for (int i = 0; i < data_title.length; i++) {
-            Movie movie = new Movie();
+            Movie movie = new Movie(data_photo.getResourceId(i, -1),data_title[i],data_description[i]);
             movie.setTitle(data_title[i]);
             movie.setDesc(data_description[i]);
             movie.setImg(data_photo.getResourceId(i, -1));
@@ -57,11 +77,5 @@ public class MainActivity extends AppCompatActivity {
         data_photo = getResources().obtainTypedArray(R.array.data_photo);
     }
 
-    private void showSelectedArray(Movie movie) {
-        Intent x = new Intent(MainActivity.this, detail.class);
-        x.putExtra(detail.Title, movie.getTitle());
-        x.putExtra(detail.Desc, movie.getDesc());
-        x.putExtra(detail.Pic, movie.getImg());
-        startActivity(x);
-    }
+
 }

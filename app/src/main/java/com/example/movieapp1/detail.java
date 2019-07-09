@@ -1,6 +1,5 @@
 package com.example.movieapp1;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,10 +11,8 @@ import android.widget.Toast;
 
 public class detail extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String Title = "title";
-    public static final String Desc = "desc";
-    public static final String Pic = "pic";
-    private Context context;
+    public static final String Extra_Movie = "extra_movie";
+
     TextView tvTitle;
     TextView tvDesc;
     ImageView imgPhoto;
@@ -26,15 +23,22 @@ public class detail extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        Movie selectedMovie = getIntent().getParcelableExtra(Extra_Movie);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
-            int pic = bundle.getInt("pic");
-            String title = bundle.getString("title");
-            String desc = bundle.getString("desc");
+        if(selectedMovie!=null){
 
-            setMode(desc,title,pic);
+            tvTitle = findViewById(R.id.tv_title);
+            tvDesc = findViewById(R.id.tv_desc);
+            imgPhoto = findViewById(R.id.IVDetail);
+
+
+            tvTitle.setText(selectedMovie.getTitle());
+            tvDesc.setText(selectedMovie.getDesc());
+            imgPhoto.setImageResource(selectedMovie.getImg());
+
+            setActionBarTitle("Movie Detail");
         }
+
 
 
         btnDownload = findViewById(R.id.btn_download);
@@ -48,19 +52,7 @@ public class detail extends AppCompatActivity implements View.OnClickListener {
         Toast.makeText(detail.this,"Download " + title,Toast.LENGTH_SHORT).show();
     }
 
-    public void setMode(String desc, String title, int pic) {
-        tvTitle = findViewById(R.id.tv_title);
-        tvDesc = findViewById(R.id.tv_desc);
-        imgPhoto = findViewById(R.id.IVDetail);
 
-
-        tvTitle.setText(title);
-        tvDesc.setText(desc);
-        imgPhoto.setImageResource(pic);
-
-        setActionBarTitle("Movie Detail");
-
-    }
 
     private void setActionBarTitle(String title){
         getSupportActionBar().setTitle(title);
